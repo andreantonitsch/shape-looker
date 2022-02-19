@@ -79,14 +79,12 @@ export default class Experience
         this.upd = this.update.bind(this)
         this.time.on('beat', this.upd)
 
-        if(window.location.hash === '#debug'){
-            const axis = new THREE.AxisHelper()
-            this.scene.add(axis)
-            this.gui = new Debug()
-            this.gui.gui.add(axis, 'visible').name('visible axis')
-            this.world.debug(this.gui.gui)
-            this.environment.debug(this.gui.gui)
-        }
+        const axis = new THREE.AxisHelper()
+        this.scene.add(axis)
+        this.gui = new Debug()
+        this.gui.gui.add(axis, 'visible').name('visible axis')
+        this.world.debug(this.gui.gui)
+        this.environment.debug(this.gui.gui)
 
     }
 
