@@ -4,12 +4,8 @@ export default class Debug
 {
     constructor()
     {
-        this.active = window.location.hash === '#debug'
+        this.gui = new dat.GUI()
 
-        if(this.active)
-        {
-            this.gui = new dat.GUI()
-        }
     }
 
     dispose(){
