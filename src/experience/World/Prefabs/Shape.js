@@ -30,13 +30,17 @@ export default class Shape
 
 
     setMaterial(){
-        this.material = new THREE.MeshStandardMaterial({color:0xdddddd, metalness:.1, roughness:.9, side: THREE.DoubleSide})
+        this.materials = {}
+        this.materials.physics = new THREE.MeshStandardMaterial({color:0xdddddd, metalness:.1, roughness:.9, side: THREE.DoubleSide})
+        this.materials.normal = new THREE.MeshNormalMaterial({side:THREE.DoubleSide})
+        //this.materials.depth = new THREE.MeshDepthMaterial()
+        this.materials.current = this.materials.normal
     }
 
     setMesh(){
         this.mesh = new THREE.Mesh(
             this.geoms.current,
-            this.material
+            this.materials.normal
         )
         this.mesh.castShadow = true
         this.mesh.visible = true
@@ -73,11 +77,22 @@ export default class Shape
              }
          )
 
-         shape_folder.add(this.debug_obj, 'rotate')
-         shape_folder.add(this.mesh.material, 'wireframe')
+        shape_folder.add(this.materials, 'current', {
+            physics : this.materials.physics,
+            normal : this.materials.normal,
+            //depth : this.materials.depth
+         }).name("Current material")
+         .onChange(
+             (value) =>{
+                 this.mesh.material = this.materials.current
+             }
+         )
 
-         shape_folder.add(this.material, 'roughness', 0, 1, 0.01)
-         shape_folder.add(this.material, 'metalness', 0, 1, 0.01)
+         shape_folder.add(this.debug_obj, 'rotate')
+         //shape_folder.add(this.mesh.material, 'wireframe')
+
+         shape_folder.add(this.materials.physics, 'roughness', 0, 1, 0.01)
+         shape_folder.add(this.materials.physics, 'metalness', 0, 1, 0.01)
     }
 
 
